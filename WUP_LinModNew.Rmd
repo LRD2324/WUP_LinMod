@@ -1,7 +1,7 @@
 ---
 title: "linear model from Web"
-author: "Your Name"
-date: "Put semester and year"
+author: "Logan DeHay"
+date: "Fall 2021"
 output:
    html_document:
          toc: true
@@ -34,7 +34,13 @@ data <- read.csv(file="https://onlinestatbook.com/case_studies_rvls/physical_str
 ## Model 1 SIM~ARMS
 
 ### scatterplot
-
+  
+```{r}
+plot(SIMS~ARM,data=data)
+```
+  
+The ARM v. SIMS scatterplot illustrates a positive correlation between the two variables. The scatterplot is fairly tight with a relatively consistent band width of about 4. It can be estimated that a standard deviation of the data is equal to approximately 1.
+  
 ### Numerical results
 
 
