@@ -3,10 +3,12 @@ title: "linear model from Web"
 author: "Logan DeHay"
 date: "Fall 2021"
 output:
-   html_document:
-         toc: true
-         toc_depth: 5
-        
+  pdf_document:
+    toc: yes
+    toc_depth: '5'
+  html_document:
+    toc: yes
+    toc_depth: 5
 ---
 
 ```{r setup, include=FALSE}
@@ -71,7 +73,7 @@ mydata= data.frame(GRIP=94,ARM=88)
 predict(model.1,mydata,interval="prediction")
 ```
   
-The prediction interval is drastically larger than the confidence interval ranging from -1.72 to 3.13. This is equal to about 4 residual standard errors.
+The prediction interval is drastically larger than the confidence interval ranging from -1.72 to 3.13. This is equal to about 4 residual standard errors. When ARM is equal to 88, SIMS is predicted to be 0.7063836. 
   
 #### Scatterplot with model fit
   
@@ -130,20 +132,57 @@ basicNT + geom_point() + geom_smooth(method=lm)
 
 ## Model 3 SIM~ARM+GRIP
 
+```{r}
+model.3 <- lm(SIMS~ARM + GRIP,data=data)
+summary.lm(model.3)
+``` 
+  
+SIMS= (0.037311* ARM)+(0.024470* GRIP)- 5.433871
+  
 ### Numerical results (cor)
-
-`
+  
+```{r}
+cor(SIMS~ARM+GRIP,data=data)
+```
+  
+This correlation is greater than either ARM or GRIP. The correlation is 73.27%.
   
 ### Inferential  (Build 2-dimentional model.3)
-
+```{r}
+model.3 <- lm(SIMS~ARM+GRIP,data=data)
+summary.lm(model.3)
+```
+  
+SIMS= (0.037311* ARM)+ (0.024470* GRIP)- 5.433871
+  
 #### predict model.3 at target point
   
-
+```{r}
+predict(model.3,mydata,interval="prediction")
+```
+  
+When ARM is equal to 88 and GRIP equal to 94, the value of SIMS is estimated to be 0.1496476. Interval ranges from -2.13 to 2.43.
+  
 ## Comparing nested models ANOVA Test
 
 ### Model.1 vs Model.3
+```{r}
+anova(model.1,model.3)
+```
+  
+The test displays a difference between the accuracy of the two models. The p-value is 4.994e-06, and such a small value strongly suggests the likelihood that the addition of GRIP had a significant impact on the improvement of the model. The residual sum of errors decreased from model1 to model2. The addition of GRIP to model.1 decreased the errors from 217.88 to 188.43. The model with two regressors in it is superior in accuracy comparatively to model.1 which only has one.
+  
 ### Model.2 vs Model.3
-
+```{r}
+anova(model.2,model.3)
+```
+  
+Model.2 has an even greater number of errors than model.1 and as a result, the addition of ARM to model.2 has a greater impact on the accuracy of the model. The p-value is extremely small being 1.495 nano-units. This indicates an even greater probability of the addition of ARM to Model.2 has a significant impact on the accuracy of the model.
+  
 ## Informally compare Model.1 with model.2
-Add all errors and take each error and square it and then add them all up. Change in size of error proves the accuracy/improvement of different models. Reduction of error to near 0%$ is perfect.
-The mean model utilizes the average to guess the value of a randomly chosen sample point. 
+```{r}
+anova(model.1,model.2)
+```
+  
+Model.1 is more accurate than Model.2 which is evident from the lesser number of errors.
+  
