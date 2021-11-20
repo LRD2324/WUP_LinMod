@@ -186,3 +186,6 @@ anova(model.1,model.2)
   
 Model.1 is more accurate than Model.2 which is evident from the smaller residual sum of squares. However, a p-value is not available due to their status as nested models.
   
+This entire process utilized the Num~Num helper file because the data was composed of multiple numerical values to be compared with an obvious lack of any categorical factors.
+  
+  
