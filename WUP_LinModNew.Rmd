@@ -55,7 +55,7 @@ summary.lm(model.1)
 ```
   
 SIMS= 0.054563(ARM) - 4.095160
-Our adjusted R-squared value is 0.467, which is indicating that ARM explains less than half the variation of the SIMS data. It reduces the error of the mean model of the equation by 46.7%. In addition the calculated residual standard error of the data is 1.226, which is a measure of the deviation from our regression line. According to this data our equation of the line is SIMS=0.054563*(ARM)-4.095160. 
+Our adjusted R-squared value is 0.467, which is indicating that ARM explains less than half the variation of the SIMS data. The addition of new regressors induces a decrease in the value of adjusted R-squared. It reduces the error of the mean model of the equation by 46.7%. In addition the calculated residual standard error of the data is 1.226, which is a measure of the deviation from our regression line. According to this data our equation of the line is SIMS=0.054563*(ARM)-4.095160. 
   
 #### Predict at target point
 ```{r}
@@ -68,8 +68,10 @@ mydata= data.frame(GRIP=94,ARM=88)
 ```
 
 ```{r}
-predict(model.1,mydata,interval="confidence")
+predict(model.1,mydata,interval="prediction")
 ```
+  
+The prediction interval is drastically larger than the confidence interval ranging from -1.72 to 3.13. This is equal to about 4 residual standard errors.
   
 #### Scatterplot with model fit
   
@@ -81,22 +83,50 @@ basicNN <- ggplot(data,aes(y=SIMS,x=ARM))
 basicNN + geom_point() + geom_smooth(method=lm)
 ``` 
   
+There is a normal curve above every point on the x-axis and the peak of the curve is center on the blue line. Each side of the line displays errors.
+  
 ## Model 2 SIM~GRIP
 
 ### Now add in scatterplot
-
-
+```{r}
+plot(SIMS~GRIP,data=data)
+```
+  
+There is a general trend upwards and to the right which indicates a positive linear correlation between GRIP and SIMS.
+  
 ### Numerical results 
-
-
+```{r}
+cor(SIMS~GRIP,data=data)
+```
+  
+The correlation of SIMS and GRIP is 0.6398 which is lesser than the correlation between SIMS and ARM of 0.6830. Despite this, both are strong correlations.
+  
 ### Inferential  (Build model.2)
   
-
+```{r}
+model.2 <- lm(SIMS~GRIP,data=data)
+summary.lm(model.2)
+```
+  
+The equation of the line is SIMS= 0.045463*(GRIP)-4.809675
+  
 #### predict model.2 at target point
 
+```{r}
+predict(model.2,mydata,interval="prediction")
+```
+  
+This prediction interval is wider than the same interval for SIMS and ARM. When grip is 94, then SIMS is predicted to be -0.5361543.
+  
 #### now add the model fit to our plot for model.2
   
-
+```{r}
+basicNT <- ggplot(data,aes(y=SIMS,x=GRIP))
+```
+  
+```{r}
+basicNT + geom_point() + geom_smooth(method=lm)
+``` 
 
 ## Model 3 SIM~ARM+GRIP
 
@@ -115,4 +145,5 @@ basicNN + geom_point() + geom_smooth(method=lm)
 ### Model.2 vs Model.3
 
 ## Informally compare Model.1 with model.2
-
+Add all errors and take each error and square it and then add them all up. Change in size of error proves the accuracy/improvement of different models. Reduction of error to near 0%$ is perfect.
+The mean model utilizes the average to guess the value of a randomly chosen sample point. 
