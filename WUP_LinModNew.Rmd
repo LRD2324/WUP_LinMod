@@ -184,5 +184,5 @@ Model.2 has an even greater number of errors than model.1 and as a result, the a
 anova(model.1,model.2)
 ```
   
-Model.1 is more accurate than Model.2 which is evident from the lesser number of errors.
+Model.1 is more accurate than Model.2 which is evident from the smaller residual sum of squares. However, a p-value is not available due to their status as nested models.
   
