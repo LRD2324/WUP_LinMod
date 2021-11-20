@@ -39,19 +39,48 @@ data <- read.csv(file="https://onlinestatbook.com/case_studies_rvls/physical_str
 plot(SIMS~ARM,data=data)
 ```
   
-The ARM v. SIMS scatterplot illustrates a positive correlation between the two variables. The scatterplot is fairly tight with a relatively consistent band width of about 4. It can be estimated that a standard deviation of the data is equal to approximately 1.
+The ARM v. SIMS scatter plot illustrates a positive correlation between the two variables. The scatter plot is fairly tight with a relatively consistent band width of about 4. It can be estimated that a standard deviation of the data is equal to approximately 1.
   
 ### Numerical results
-
-
-### Inferential  (Build model.1)
-
-#### Predict at target point
-
-
-#### scatterplot with model fit
   
+```{r}
+cor(SIMS~ARM,data=data)
+```
+  
+### Inferential  (Build model.1)
+  
+```{r}
+model.1 <- lm(SIMS~ARM,data=data)
+summary.lm(model.1)
+```
+  
+SIMS= 0.054563(ARM) - 4.095160
+Our adjusted R-squared value is 0.467, which is indicating that ARM explains less than half the variation of the SIMS data. It reduces the error of the mean model of the equation by 46.7%. In addition the calculated residual standard error of the data is 1.226, which is a measure of the deviation from our regression line. According to this data our equation of the line is SIMS=0.054563*(ARM)-4.095160. 
+  
+#### Predict at target point
+```{r}
+SIMS=0.054563*(88)-4.095160
+```
 
+  
+```{r}
+mydata= data.frame(GRIP=94,ARM=88)
+```
+
+```{r}
+predict(model.1,mydata,interval="confidence")
+```
+  
+#### Scatterplot with model fit
+  
+```{r}
+basicNN <- ggplot(data,aes(y=SIMS,x=ARM))
+```
+  
+```{r}
+basicNN + geom_point() + geom_smooth(method=lm)
+``` 
+  
 ## Model 2 SIM~GRIP
 
 ### Now add in scatterplot
